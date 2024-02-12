@@ -4,60 +4,69 @@ class Program
 {
     static void Main(string[] args)
     {
-        string mensajeOriginal = "bkbw";
-        int clave = 2;
+        string msg = "bkbw";
+        int key = 2;
 
-        string mensajeDescifrado = desencriptarCesar(mensajeOriginal, clave);
-        Console.WriteLine("Mensaje descifrado: " + mensajeDescifrado);
+        string decryptMsg = decrypt(msg, key);
+        Console.WriteLine("Mensaje descifrado: " + decryptMsg);
 
         Console.ReadKey();
     }
 
-    private static string encriptarCesar(string mensaje, int clave)
+    private static string encrypt(string msg, int key)
 
     {
-        string resultado = "";
-        int indice;
-        int nuevoIndice;
+        string result = "";
+        int Index;
+        int newIndex;
         int intAscii;
 
-
-
-        foreach (char c in mensaje)
+        foreach (char c in msg)
         {
+            
             if (char.IsLetter(c))
+
+
             {
+                // si  el caracter es una ñ
+                if (c == 'ñ')
+                {
+                    intAscii = c;
+                    continue;
+                }
+                
+                
                 if (char.IsUpper(c))
                 {
-                    indice = c - (int)'A' + clave;  // Índice de la letra en el alfabeto
-                    nuevoIndice = ((indice + clave) + 26) % 26;  // Nuevo índice después del desplazamiento, asegurándose de que esté dentro del rango [0, 25]
-                    intAscii = nuevoIndice + (int)'A';  // Convertir el nuevo índice a código ASCII
+                    Index = (c - (int)'A') + key;  // Índice de la letra en el alfabeto
+                    newIndex = ((Index + key) + 26) % 26;  // Nuevo índice después del desplazamiento, asegurándose de que esté dentro del rango [0, 25]
+                    intAscii = newIndex + (int)'A';  // Convertir el nuevo índice a código ASCII
                 }
                 else if (char.IsLower(c))
                 {
-                    indice = c - (int)'a';  // Índice de la letra en el alfabeto
-                    nuevoIndice = ((indice + clave) + 26) % 26;  // Nuevo índice después del desplazamiento, asegurándose de que esté dentro del rango [0, 25]
-                    intAscii = nuevoIndice + (int)'a';  // Convertir el nuevo índice a código ASCII
+                    Index = (c - (int)'a');  // Índice de la letra en el alfabeto
+                    newIndex = ((Index + key) + 26) % 26;  // Nuevo índice después del desplazamiento, asegurándose de que esté dentro del rango [0, 25]
+                    intAscii = newIndex + (int)'a';  // Convertir el nuevo índice a código ASCII
                 }
                 else
                 {
                     intAscii = c;  // Mantener caracteres que no son letras sin cambios
                 }
           
-                resultado += (char)intAscii;
+                result += (char)intAscii;
             }
             else
             {
-                resultado += c;
+                result += c;
             }
-            Console.WriteLine("Resultado: " + (int)'A');
+            Console.WriteLine("result: " + (int)'A');
         }
 
-        return resultado;
+        return result;
     }
 
-    private static string desencriptarCesar(string mensajeCifrado, int clave)
+    private static string decrypt(string msg, int key)
     {
-        return encriptarCesar(mensajeCifrado, -clave);
+        return encrypt(msg, -key);
     }
 }
