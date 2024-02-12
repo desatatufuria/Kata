@@ -8,7 +8,7 @@ class Program
         int clave = 2;
 
         string mensajeDescifrado = desencriptarCesar(mensajeOriginal, clave);
-        Console.WriteLine("Mensaje descifrado: " + mensajeDescifrado);
+        Console.WriteLine("Mensaje descifrado: " + mensajeDescifrado); 
 
         Console.ReadKey();
     }
