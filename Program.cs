@@ -10,17 +10,19 @@ namespace CifradoCesar
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Mensaje Recibido:");
-            string mensaje = Console.ReadLine();
+            //Console.WriteLine("Mensaje Recibido:");
+            //string mensaje = Console.ReadLine();
 
 
-            Console.WriteLine("Clave Usada:");
-            int clave = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("Clave Usada:");
+            //int clave = Convert.ToInt32(Console.ReadLine());
 
+            string mensaje = "Zizu patatas PaTatas";
+            int clave = 3;
 
             string msgCifrado = encriptarCesar(mensaje, clave);
             Console.WriteLine("Mensaje cifrado: " + msgCifrado);
-            Console.ReadKey();
+            
 
             string mensajeDescifrado = desencriptarCesar(msgCifrado, clave);
             Console.WriteLine("Mensaje descifrado: " + mensajeDescifrado);
@@ -29,30 +31,68 @@ namespace CifradoCesar
 
 
         private static string encriptarCesar(string mensaje, int clave)
-        {
-            string msg = "";
 
-            foreach (char c in mensaje)
+        {
+            
+
+            string resultado = "";
+
+            foreach (char c in mensaje) // Recorremos todos los ces del mensaje
             {
-                if (char.IsLetter(c))
+                if (char.IsLetter(c)) // Si es una letra
                 {
-                    char charCodificado = (char)(c + clave);
-                    msg += (!char.IsLetter(charCodificado)) ? (char)(c - (26 - clave)) : charCodificado;
+                    char codificacion = Convert.ToChar(c + clave); 
+
+                    if ((char.IsLower(c) && codificacion > 'z') || (char.IsUpper(c) && codificacion > 'Z'))
+                    {
+                        resultado += Convert.ToChar(c - (26 - clave));
+                    }
+                    else
+                    {
+                        resultado += codificacion;
+                    }
                 }
-                else
-                    msg += c;
+                else // No es una letra. (no hacer nada)
+                    resultado += c;
+
             }
 
-            return msg;
+            return resultado;
         }
 
-        private static string desencriptarCesar(string msgCifrado, int clave)
+        private static string desencriptarCesar(string mensajeCifrado, int clave)
         {
-            return encriptarCesar(msgCifrado, clave * (-1));
+
+            string resultado = "";
+
+            foreach (char c in mensajeCifrado) // Recorremos todos los ces del mensaje
+            {
+                if (char.IsLetter(c)) // Si es una letra
+                {
+                    char codificacion = Convert.ToChar(c - clave);
+
+                    if ((char.IsLower(c) && codificacion < 'a') || (char.IsUpper(c) && codificacion < 'a'))
+                    {
+                        resultado += Convert.ToChar(c + (26 - clave));
+                    }
+                    else
+                    {
+                        resultado += codificacion;
+                    }
+                }
+                else // No es una letra. (no hacer nada)
+                    resultado += c;
+
+            }
+            return resultado;
+
         }
 
 
-       
+        private static bool letraOCaracter(char c)
+        {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+        }
     }
 
 
