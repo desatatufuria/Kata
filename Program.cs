@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Linq;
 
 
@@ -36,8 +37,6 @@ using System.Linq;
  *       ChipherCesar.exe decrypt bkxb, 2  // se espera [zizu]
  *
  * 
- * 
- * 
  */
 
 class Program
@@ -48,37 +47,49 @@ class Program
         switch (args.Length)
         {
             case 0:
-                MostrarMenu();
+                // No se han introducido argumentos por lo que se muestra el menu
+                showMenu();
                 break;
             case 3:
+                // Se han introducido 3 argumentos por lo que se procede a comprobar si se quiere cifrar o descifrar
                 if ((args[0] == "encrypt" || args[0] == "decrypt") && args.Length >= 3)
                 {
+                    // Comprobamos que la clave sea un numero entero positivo
                     if (int.TryParse(args[2], out int key) && key >= 0)
                     {
+                        // Creamos una instancia de la clase CesarCipher
                         CesarCipher Cipher = new CesarCipher();
+                        // Comprobamos si se quiere cifrar o descifrar
                         if (args[0] == "encrypt")
-                            Cipher.encrypt(args[1], key);
+                            Cipher.encrypt(args[1], key); // ciframos el mensaje
                         else
-                            Cipher.decrypt(args[1], key);
+                            Cipher.decrypt(args[1], key); // desciframos el mensaje
                     }
                     else
-                        Console.WriteLine("La clave debe ser un numero entero positivo");
+                        Console.WriteLine("La clave debe ser un numero entero positivo"); // si la clave no es valida
                 }
                 else
-                    Console.WriteLine("Operacion no válida.");
+                    help(); // si los argumentos no son validos mostramos la ayuda
+
                 break;
             default:
-                Console.WriteLine("Instrucciones: ");
-                Console.WriteLine("Para encriptar: ChipherCesar.exe encrypt [texto] [clave]");
-                Console.WriteLine("Para desencriptar: ChipherCesar.exe decrypt [textoEncriptado] [clave]");
-                Console.WriteLine("Si quieres ver el menu: ChipherCesar.exe");
-                Console.WriteLine("Pulse Enter para salir.");
-                Console.ReadKey();
+                help(); // si el numero de argumentos no es valido mostramos la ayuda
                 break;
         }
     }
+    public static void help()
+    {
+        Console.WriteLine("\n\nInstrucciones: ");
+        Console.WriteLine("--------------");
+        Console.WriteLine("Para encriptar: ChipherCesar.exe encrypt [texto] [clave]");
+        Console.WriteLine("Para desencriptar: ChipherCesar.exe decrypt [textoEncriptado] [clave]");
+        Console.WriteLine("Si quieres ver el menu: ChipherCesar.exe");
+        Console.WriteLine("-- Enter para salir.");
+        Console.ReadKey();
 
-    public static void MostrarMenu()
+    }
+
+    public static void showMenu()
     {
 
         CesarCipher Cipher = new CesarCipher();
@@ -131,8 +142,8 @@ class Program
                     string msgTest = "En criptografía, el cifrado Cesar, tambien conocido como cifrado por desplazamiento," +
                                    " código de Cesar o desplazamiento de Cesar, es una de las técnicas de cifrado mas simples y mas usadas";
 
-                    string msgTestEncrypt = "Gp etkrvqitchkc, gn ekhtcfq Eguct, vcodkgp eqpqekfq eqoq ekhtcfq rqt fgurncbcokgpvq," +
-                                   " eqfkiq fg Eguct q fgurncbcokgpvq fg Eguct, gu wpc fg ncu vgepkecu fg ekhtcfq ocu ukorngu a ocu wucfcu";
+                    string msgTestEncrypt = "Hq fulswrjudild, ho fliudgr Fhvdu, wdpelhq frqrflgr frpr fliudgr sru ghvsodcdplhqwr, frgljr gh " +
+                        "Fhvdu r ghvsodcdplhqwr gh Fhvdu, hv xqd gh odv whfqlfdv gh fliudgr pdv vlpsohv b pdv xvdgdv";
 
 
                     int keyUnitTest = 3;
@@ -147,12 +158,7 @@ class Program
                     Console.WriteLine($"\n\n Mensaje descifrado con desplazamiento {keyUnitTest} :\n\n");
                     Cipher.decrypt(msgTestEncrypt, keyUnitTest);
                     Console.ReadKey();
-
-
-
                     break;
-
-
                 case "x":
                 case "X":
                     // Salir
