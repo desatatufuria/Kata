@@ -103,9 +103,9 @@ class Program
             Console.WriteLine("\r\r 3. Test Unitario Básico");
             Console.WriteLine("\r\r x. Salir");
 
-            string opcion = Console.ReadLine();
+            string option = Console.ReadLine();
 
-            switch (opcion)
+            switch (option)
             {
                 case "1":
                     Console.Clear();
