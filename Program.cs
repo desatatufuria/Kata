@@ -42,47 +42,43 @@ class Program
 {
     static void Main(string[] args)
     {
-        switch (args.Length)
-        {
-            case 0:
-                // No se han introducido argumentos por lo que se muestra el menu
-                showMenu();
-                break;
-            case 3:
-                // Se han introducido 3 argumentos por lo que se procede a comprobar si se quiere cifrar o descifrar
-                if ((args[0] == "encrypt" || args[0] == "decrypt") && args.Length >= 3)
-                {
-                    // Comprobamos que la clave sea un numero entero positivo
-                    if (int.TryParse(args[2], out int key) && key >= 0)
-                    {
-                        // Creamos una instancia de la clase CesarCipher
-                        CesarCipher Cipher = new CesarCipher();
-                        // Comprobamos si se quiere cifrar o descifrar
-                        if (args[0] == "encrypt")
-                            Cipher.encrypt(args[1], key); // ciframos el mensaje
-                        else
-                            Cipher.decrypt(args[1], key); // desciframos el mensaje
-                    }
-                    else
-                        Console.WriteLine("La clave debe ser un numero entero positivo"); // si la clave no es valida
-                }
-                else
-                    help(); // si los argumentos no son validos mostramos la ayuda
+        CesarCipher Cipher = new CesarCipher();
 
+        if (args.Length == 0) showMenu();
+
+        if (!(int.TryParse(args[2], out int key) && key >= 0))
+            Console.WriteLine($"La clave: {args[2]}, debe ser un número entero positivo");
+
+            switch (args[0])
+        {
+
+            case "encrypt":
+                    Cipher.encrypt(args[1], key); // ciframos el mensaje
+                break;
+
+            case "decrypt":
+                    Cipher.decrypt(args[1], key); // desciframos el mensaje
+                break;
+            case "?":
+            case "help":
+                help();
                 break;
             default:
-                help(); // si el numero de argumentos no es valido mostramos la ayuda
+                // Si args[0] no coincide con ninguno de los casos anteriores, se muestra la ayuda
+                help();
                 break;
         }
     }
     public static void help()
     {
-        Console.WriteLine("\n\nInstrucciones: ");
-        Console.WriteLine("--------------");
-        Console.WriteLine("Para encriptar: ChipherCesar.exe encrypt [texto] [clave]");
-        Console.WriteLine("Para desencriptar: ChipherCesar.exe decrypt [textoEncriptado] [clave]");
-        Console.WriteLine("Si quieres ver el menu: ChipherCesar.exe");
-        Console.WriteLine("-- Enter para salir.");
+        string instructions = string.Format("\n\nInstrucciones: " +
+            "\n--------------\n" +
+            "Para encriptar: {0} encrypt [texto] [clave]" +
+            "\nPara desencriptar: {0} decrypt [textoEncriptado] [clave]" +
+            "\nSi quieres ver el menu: {0}" +
+            "\nSi quieres ver esta ayuda: {0} [?] | [help]" +
+            "\n-- Enter para salir.", "CipherCesar.exe");
+        Console.WriteLine(instructions);
         Console.ReadKey();
 
     }
@@ -160,7 +156,8 @@ class Program
                 case "x":
                 case "X":
                     // Salir
-                    return;
+                    Environment.Exit(0);
+                    break;
                 default:
                     Console.WriteLine("Por favor, seleccione una opción válida.");
                     break;
@@ -168,6 +165,6 @@ class Program
         }
     }
 
-  
+
 
 }
